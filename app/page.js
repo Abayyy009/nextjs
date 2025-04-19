@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 
 export default function Home() {
@@ -8,12 +8,6 @@ export default function Home() {
     email: "",
     message: "",
   });
-
-  const [isClient, setIsClient] = useState(false); // Untuk memastikan ini hanya di-render di client-side
-
-  useEffect(() => {
-    setIsClient(true); // Menandakan bahwa kode ini hanya dijalankan di client-side
-  }, []);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -25,7 +19,6 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Menyiapkan data untuk dikirim
     const formDataToSend = new URLSearchParams({
       name: formData.name,
       email: formData.email,
@@ -38,7 +31,7 @@ export default function Home() {
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded", // Pastikan header ini sesuai
+            "Content-Type": "application/x-www-form-urlencoded",
           },
           body: formDataToSend,
         }
@@ -48,7 +41,7 @@ export default function Home() {
 
       if (data.success) {
         alert(data.message);
-        setFormData({ name: "", email: "", message: "" }); // Reset form
+        setFormData({ name: "", email: "", message: "" });
       } else {
         alert("Gagal mengirim data. Silakan coba lagi.");
       }
@@ -58,17 +51,13 @@ export default function Home() {
     }
   };
 
-  if (!isClient) {
-    return null; // Menghindari render halaman sebelum client-side tersedia
-  }
-
   return (
-    <main className="min-h-screen bg-white text-gray-800">
+    <main className="min-h-screen bg-gradient-to-b from-white to-pink-50 text-gray-800">
       {/* Navbar */}
-      <nav className="bg-pink-600 text-white px-6 py-4 shadow-md sticky top-0 z-50">
-        <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-bold">Abayyy.Id</h1>
-          <div className="space-x-4 hidden md:block">
+      <nav className="bg-pink-600 text-white px-6 py-4 shadow-lg sticky top-0 z-50">
+        <div className="max-w-6xl mx-auto flex justify-between items-center">
+          <h1 className="text-2xl font-extrabold tracking-tight">Abayyy.Id</h1>
+          <div className="space-x-6 hidden md:flex text-lg font-medium">
             <a href="#about" className="hover:underline">
               Tentang
             </a>
@@ -86,39 +75,38 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="text-center mb-10 py-10 bg-pink-50">
-        <div className="container mx-auto">
-          <h1 className="text-4xl font-bold text-pink-600">
-            Selamat Datang di Abayyy.Id
+      <section className="text-center py-20 bg-pink-100">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-5xl font-bold text-pink-600 leading-tight">
+            Selamat Datang di <span className="text-gray-800">Abayyy.Id</span>
           </h1>
-          <p className="text-lg text-gray-600 mt-2">
+          <p className="text-xl text-gray-700 mt-4">
             Portofolio Web Developer Muda
           </p>
         </div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="mb-12 py-10">
-        <div className="container mx-auto">
-          <h2 className="text-2xl font-semibold text-pink-600 mb-4">
+      <section id="about" className="py-16">
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="text-3xl font-semibold text-pink-600 mb-8">
             Tentang Saya
           </h2>
-          <div className="flex flex-col md:flex-row gap-6 items-center">
-            <div className="flex-1">
-              <p className="text-gray-700">
+          <div className="flex flex-col md:flex-row items-center gap-10">
+            <div className="flex-1 text-lg text-gray-700">
+              <p>
                 Saya adalah mahasiswa Informatika yang tertarik pada
                 pengembangan web dan teknologi AI. Saat ini saya sedang
                 membangun portofolio sebagai Web Developer.
               </p>
             </div>
             <div>
-              {/* Image using Next.js Image component */}
               <Image
                 src="/saya.png"
                 alt="Foto Saya"
                 width={200}
                 height={200}
-                className="w-48 h-48 rounded-xl object-cover"
+                className="rounded-xl shadow-lg"
               />
             </div>
           </div>
@@ -126,12 +114,12 @@ export default function Home() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="mb-12 py-10 bg-pink-50">
-        <div className="container mx-auto">
-          <h2 className="text-2xl font-semibold text-pink-600 mb-4">
+      <section id="skills" className="py-16 bg-pink-50">
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="text-3xl font-semibold text-pink-600 mb-10">
             Keahlian
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               "HTML, CSS, JS, Tailwind",
               "PHP & MySQL",
@@ -140,11 +128,9 @@ export default function Home() {
             ].map((skill, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-xl shadow-md p-6 hover:scale-105 transition-transform"
+                className="bg-white rounded-xl shadow hover:shadow-lg p-6 text-center transition-all"
               >
-                <h3 className="text-center text-lg font-medium text-gray-800">
-                  {skill}
-                </h3>
+                <p className="font-medium text-gray-800">{skill}</p>
               </div>
             ))}
           </div>
@@ -152,10 +138,10 @@ export default function Home() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="mb-12 py-10">
-        <div className="container mx-auto">
-          <h2 className="text-2xl font-semibold text-pink-600 mb-4">Proyek</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section id="projects" className="py-16">
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="text-3xl font-semibold text-pink-600 mb-10">Proyek</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
                 title: "GeoKost Bogor",
@@ -172,32 +158,32 @@ export default function Home() {
             ].map((project, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-xl shadow-md p-6 hover:scale-105 transition-transform"
+                className="bg-white rounded-xl shadow hover:shadow-xl p-6 transition-transform transform hover:-translate-y-1"
               >
-                <h3 className="text-lg font-bold text-gray-800">
+                <h3 className="text-xl font-bold text-gray-800 mb-2">
                   {project.title}
                 </h3>
-                <p className="text-sm text-gray-600 mt-2">{project.desc}</p>
+                <p className="text-gray-600">{project.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Kontak */}
-      <section id="contact" className="bg-pink-50 py-10">
-        <div className="container mx-auto">
-          <h2 className="text-2xl font-bold text-pink-600 mb-4 text-center">
+      {/* Contact Section */}
+      <section id="contact" className="bg-pink-50 py-16">
+        <div className="max-w-2xl mx-auto px-4">
+          <h2 className="text-3xl font-semibold text-pink-600 mb-8 text-center">
             Hubungi Saya
           </h2>
-          <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <input
               type="text"
               name="name"
               placeholder="Nama"
               value={formData.name}
               onChange={handleChange}
-              className="w-full p-4 border border-pink-300 rounded-lg"
+              className="w-full px-5 py-4 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
               required
             />
             <input
@@ -206,7 +192,7 @@ export default function Home() {
               placeholder="Email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full p-4 border border-pink-300 rounded-lg"
+              className="w-full px-5 py-4 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
               required
             />
             <textarea
@@ -215,7 +201,7 @@ export default function Home() {
               rows="6"
               value={formData.message}
               onChange={handleChange}
-              className="w-full p-4 border border-pink-300 rounded-lg"
+              className="w-full px-5 py-4 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
               required
             />
             <button
